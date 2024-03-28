@@ -1,0 +1,27 @@
+#!/bin/sh
+
+os=`uname`
+cd release/latest/`arch`/$os/pol
+
+v=`tmux -V`
+
+if [ "$?" != "0" ]
+then
+	echo
+	echo "===> 'tmux' command not found. Installing it ..."
+
+	if [ "$os" = "Darwin" ]
+	then
+		brew install tmux
+		brew install sqlite
+	else
+		sudo apt install tmux
+		sudo apt install libsqlite3 libsqlite3-dev
+	fi
+
+	echo "===> Done."
+fi
+
+echo "===> Running in background ..."
+
+./run-pol-challenger-in-tmux
